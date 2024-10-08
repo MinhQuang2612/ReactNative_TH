@@ -1,0 +1,23 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import { DeviceEventEmitter } from 'react-native';
+
+const EventListeningComponent = () => { 
+    const [eventData, setEventData] = useState(null);
+
+    useEffect(() => {
+        const subscription = DeviceEventEmitter.addListener('eventName', (data) => {
+            setEventData(data);
+        });
+
+        return () => {
+            subscription.remove();
+        };
+}, []);
+
+return (
+        <View>
+            <Text>{eventData ? JSON.stringify(eventData) : 'No data yet'}</Text>
+        </View>
+    );
+};
